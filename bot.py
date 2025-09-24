@@ -35,7 +35,7 @@ if config_validation['warnings']:
 bot_config = config_manager.get_bot_config()
 BOT_TOKEN = bot_config['token']
 
-=======
+
 from dotenv import load_dotenv
 from user_bot import setup_user_handlers
 from admin_bot import setup_admin_handlers
@@ -45,13 +45,13 @@ load_dotenv('config.env')
 
 # Get configuration from environment variables
 BOT_TOKEN = os.getenv('BOT_TOKEN')
->>>>>>> 5f2a61601dd6311cc5b35154e8405aed0090abf1
+
 if not BOT_TOKEN:
     raise ValueError("BOT_TOKEN not found in environment variables. Please check your config.env file.")
 
 bot = telebot.TeleBot(BOT_TOKEN)
 
-<<<<<<< HEAD
+
 # Load admin configuration using data manager
 admin_config = data_manager.load_data('admin_config.json', {
     "admin_users": [],
@@ -65,7 +65,7 @@ admin_config = data_manager.load_data('admin_config.json', {
 # Get admin user ID from configuration
 ADMIN_USER_ID = config_manager.get('admin_user_id')
 if ADMIN_USER_ID:
-=======
+
 # Load admin configuration
 try:
     with open('admin_config.json', 'r', encoding='utf-8') as f:
@@ -91,7 +91,7 @@ except (FileNotFoundError, json.JSONDecodeError, ValueError) as e:
 ADMIN_USER_ID = os.getenv('ADMIN_USER_ID')
 if ADMIN_USER_ID:
     # Update admin_config with the user ID from environment
->>>>>>> 5f2a61601dd6311cc5b35154e8405aed0090abf1
+
     admin_user_id = int(ADMIN_USER_ID)
     # Check if this user ID is already in the admin list
     if not any(admin['user_id'] == admin_user_id for admin in admin_config['admin_users']):
@@ -103,7 +103,7 @@ if ADMIN_USER_ID:
             "permissions": ["manage_categories", "manage_products", "view_orders", "manage_users", "edit_shop_info"]
         })
         # Save the updated admin config
-<<<<<<< HEAD
+
         data_manager.save_data('admin_config.json', admin_config)
         bot_logger.log_admin_action(admin_user_id, 'admin_user_added', {'source': 'environment'})
         print(f"Added admin user ID {admin_user_id} from environment variables")
@@ -127,7 +127,7 @@ admin_data = data_manager.load_data('admin_categories.json', {
 
 categories = admin_data['categories']
 shop_info = admin_data['shop_info']
-=======
+
         with open('admin_config.json', 'w', encoding='utf-8') as f:
             json.dump(admin_config, f, indent=2, ensure_ascii=False)
         print(f"Added admin user ID {admin_user_id} from environment variables")
@@ -156,13 +156,13 @@ except (FileNotFoundError, json.JSONDecodeError, ValueError, KeyError) as e:
     }
     with open('admin_categories.json', 'w', encoding='utf-8') as f:
         json.dump(admin_data, f, indent=2, ensure_ascii=False)
->>>>>>> 5f2a61601dd6311cc5b35154e8405aed0090abf1
+
 
 # In-memory storage
 user_carts = {}  # user_id -> list of {'name': str, 'price': float}
 user_states = {}  # user_id -> {'country': str, 'pgp_state': str, 'pgp_challenge': str}
 
-<<<<<<< HEAD
+
 # Get crypto wallet addresses from configuration
 crypto_config = config_manager.get_crypto_config()
 BTC_ADDRESS = crypto_config['btc_address']
@@ -211,7 +211,7 @@ bot_logger.logger.info("Setting up user handlers...")
 setup_user_handlers(bot, categories, shop_info, user_carts, user_states, gpg, PUBLIC_KEY, PRIVATE_PASSPHRASE, BTC_ADDRESS, XMR_ADDRESS, admin_config)
 
 bot_logger.logger.info("Setting up admin handlers...")
-=======
+
 # Get crypto wallet addresses from environment variables
 BTC_ADDRESS = os.getenv('BTC_ADDRESS')
 XMR_ADDRESS = os.getenv('XMR_ADDRESS')
@@ -244,12 +244,12 @@ print("Setting up user handlers...")
 setup_user_handlers(bot, categories, shop_info, user_carts, user_states, gpg, PUBLIC_KEY, PRIVATE_PASSPHRASE, BTC_ADDRESS, XMR_ADDRESS, admin_config)
 
 print("Setting up admin handlers...")
->>>>>>> 5f2a61601dd6311cc5b35154e8405aed0090abf1
+
 setup_admin_handlers(bot, admin_config, categories, shop_info, user_carts, user_states)
 
 # Run the bot
 if __name__ == '__main__':
-<<<<<<< HEAD
+
     bot_logger.logger.info("Bot starting...")
     bot_logger.logger.info(f"Loaded {len(categories)} categories with {sum(len(cat['products']) for cat in categories)} products")
     bot_logger.logger.info(f"Admin users: {len(admin_config['admin_users'])}")
@@ -267,10 +267,10 @@ if __name__ == '__main__':
         bot.infinity_polling()
     except Exception as e:
         bot_logger.log_error(e, "Bot main loop")
-        raise
-=======
+
     print("Bot starting...")
     print(f"Loaded {len(categories)} categories with {sum(len(cat['products']) for cat in categories)} products")
     print(f"Admin users: {len(admin_config['admin_users'])}")
     bot.infinity_polling()
->>>>>>> 5f2a61601dd6311cc5b35154e8405aed0090abf1
+
+
